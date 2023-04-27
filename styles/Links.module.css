@@ -1,0 +1,4 @@
+.link::after {
+    @apply absolute w-full h-0.5 bottom-0 left-0;
+    @apply scale-0 transition duration-200 ease-out origin-bottom-right;
+}

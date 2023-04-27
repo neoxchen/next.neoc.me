@@ -1,24 +1,28 @@
-import {AnimatedLink} from "@/components/animated-link";
 import {ShortDivider} from "@/components/dividers";
 import PageContainer from "@/components/page-container";
-import hexagons from "@/public/hexagon_cluster.png";
-import photo from "@/public/photo.png";
+import education from "@/public/hexagon_cluster.png"
+import minecraft from "@/public/minecraft.png"
+import photo from "@/public/photo.png"
+import styles from "@/styles/Landing.module.css"
 import Timeline from "@mui/lab/Timeline";
 import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import TimelineItem, {timelineItemClasses} from '@mui/lab/TimelineItem';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
-import Image from "next/image";
+import {Textarea, TextInput} from "flowbite-react";
+import {gsap} from "gsap";
+import Image, {StaticImageData} from "next/image";
 import * as React from "react";
-import {ReactNode, useEffect, useState} from "react";
+import {Dispatch, ReactNode, SetStateAction, useEffect, useRef, useState} from "react";
 import Confetti from "react-dom-confetti";
 import {IconContext} from "react-icons";
 import {BiCodeAlt, BiMouse, BiNetworkChart} from "react-icons/bi";
-import {BsAndroid, BsArrowRight, BsGithub, BsLinkedin, BsStack} from "react-icons/bs";
+import {BsAndroid, BsArrowRight, BsStack} from "react-icons/bs";
 import {FaCubes} from "react-icons/fa";
-import {HiDesktopComputer} from "react-icons/hi";
-import {MdEmail, MdOutlineKeyboardDoubleArrowDown} from "react-icons/md";
+import {HiDesktopComputer, HiMail} from "react-icons/hi";
+import {IoIosSend} from "react-icons/io";
+import {MdOutlineKeyboardDoubleArrowDown, MdOutlineKeyboardDoubleArrowUp} from "react-icons/md";
 
 export default function Home() {
     const elements = <>
@@ -26,8 +30,8 @@ export default function Home() {
             <div className={"w-[60%] min-w-[50rem] max-w-[70rem] flex flex-col"}>
                 <Landing/>
                 <About/>
-                <Skills/>
                 <Experiences/>
+                <Skills/>
                 <Links/>
             </div>
         </div>
@@ -37,7 +41,7 @@ export default function Home() {
 }
 
 const Landing = () => {
-    return <section className={`flex flex-col py-32`}>
+    return <section className={`flex flex-col py-32 ${styles.block}`}>
         <div className={"flex flex-row items-center justify-between gap-10"}>
             <div className={"flex flex-col gap-2 w-2/3"}>
                 <h5 className={"text-xl text-light-accent-normal dark:text-dark-accent-normal"}>
@@ -71,7 +75,60 @@ const Landing = () => {
 
 
 const About = () => {
-    return <section className={`flex flex-col py-32 overflow-hidden snap-start`} id={"about-start"}>
+    const FIRST_PARAGRAPH = "My journey into the programming world began when my brother introduced me to Minecraft. I was instantly captivated by how the simple slash commands could create such immense changes to the landscape. This spark of fascination ignited my passion for computer science that has only grown stronger over time.";
+    const SECOND_PARAGRAPH = "Fast forward 10 years, after completing rigorous academic training and various internships in the industry, I've become adept at designing and implementing scalable software solutions. While my focus is primarily on backend and cloud development, I also have experience in full-stack development, working with technologies such as React and Android.";
+    const THIRD_PARAGRAPH = "Driven by curiosity and a love for learning, I'm currently exploring opportunities to pursue a Ph.D. in computer vision, focusing on AR/VR technologies. My aim is to be at the forefront of advancements that shape our world for the better.";
+
+    const Card = ({paragraph, imgSrc}: {
+        paragraph: string,
+        imgSrc: StaticImageData
+    }) => {
+        return <div className={"project-card flex bg-dark-background-darker h-72 rounded-xl"}>
+            <div className={"flex flex-row items-center"}>
+                <div className={"p-8"}>
+                    <Image src={imgSrc} alt={"Project Image"} className={"object-cover"}/>
+                </div>
+                <div className={"p-8 "}>
+                    <p className={"text-xl text-light-text-lighter dark:text-dark-text-normal"}>
+                        {paragraph}
+                    </p>
+                </div>
+            </div>
+        </div>;
+    }
+
+    const ref = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        // Register GSAP scroller
+        let ctx = gsap.context(() => {
+            if (!ref.current) {
+                return;
+            }
+
+            let sections = gsap.utils.toArray(".project-card");
+            gsap.to(sections, {
+                xPercent: -101 * (sections.length - 1),
+                ease: "none",
+                scrollTrigger: {
+                    start: "50% 50%",
+                    trigger: "#about-start",
+                    pin: true,
+                    pinSpacing: true,
+                    scrub: 0.5,
+                    snap: 1 / (sections.length - 1),
+                    end: () => "+=" + (ref.current.offsetWidth),
+                }
+            });
+        });
+
+        // Cleanup GSAP
+        return () => ctx.revert();
+    }, []);
+
+
+    return <section className={`flex flex-col py-32 overflow-hidden snap-start ${styles.block}`}
+                    id={"about-start"}>
         {/* Title */}
         <div className={"flex flex-col gap-3"}>
             <h1 className={"text-4xl font-bold text-light-accent-darker dark:text-dark-accent-normal"}>
@@ -81,25 +138,13 @@ const About = () => {
         </div>
 
         {/* Body */}
-        <div className={"flex flex-row items-center justify-between gap-5"}>
-            <p className={"text-xl text-light-text-lighter dark:text-dark-text-normal flex-weight-2"}>
-                My journey into the programming world began when my brother introduced me to Minecraft. I was instantly
-                captivated by how the simple slash commands could create such immense changes to the landscape. This
-                spark of fascination ignited my passion for computer science that has only grown stronger over time.
-                <br/><br/>
-                Fast forward 10 years, having undergone extensive academic training and multiple internships within the
-                industry, I&rsquo;ve honed my skills in designing and implementing scalable software solutions. While my
-                focus is primarily on backend and cloud development, I also have experience in full-stack development,
-                working with technologies like ReactJS and Android.
-                <br/><br/>
-                Driven by curiosity and a love for learning, I&rsquo;m exploring opportunities to pursue a Ph.D. in
-                computer vision, focusing on AR/VR technologies. My aim is to be at the forefront of advancements that
-                shape our world for the better.
-            </p>
-            <div className={"flex-weight-1 px-4"}>
-                <Image src={hexagons} alt={"image"} height={128 * 2.5}/>
-            </div>
+        <div className={"w-[300%] grid grid-rows-1 grid-cols-3 items-center justify-between gap-5"}
+             id={"card-container"} ref={ref}>
+            <Card paragraph={FIRST_PARAGRAPH} imgSrc={minecraft}/>
+            <Card paragraph={SECOND_PARAGRAPH} imgSrc={education}/>
+            <Card paragraph={THIRD_PARAGRAPH}/>
         </div>
+
     </section>;
 }
 
@@ -136,12 +181,19 @@ const Experiences = () => {
                 </TimelineDot>
                 <TimelineConnector/>
             </TimelineSeparator>
-            <TimelineContent sx={{py: 0, px: 4, pb: 4}}>
+            <TimelineContent sx={{py: 0, px: 2, pb: 4}}>
                 <div
                     className={"flex flex-row gap-1 font-regular font-bold text-xl text-light-text-lighter dark:text-dark-text-lighter"}>
                     <p>{role}</p>
                     <p>@</p>
-                    <AnimatedLink href={company_url} text={company}/>
+                    <div className={"cursor-pointer group"}>
+                        <a className={`relative text-light-accent-darker dark:text-dark-accent-normal
+                        after:bg-light-accent-darker dark:after:bg-dark-accent-normal
+                        group-hover:after:scale-100 group-hover:after:origin-bottom-left ${styles.link}`}
+                           href={company_url} target="_blank" rel="noopener noreferrer">
+                            {company}
+                        </a>
+                    </div>
                 </div>
                 <p className={"font-regular font-semibold text-md text-light-text-lighter dark:text-dark-text-darker"}>
                     {date}
@@ -153,7 +205,7 @@ const Experiences = () => {
         </TimelineItem>;
     }
 
-    return <section className={`flex flex-col py-32`}>
+    return <section className={`flex flex-col py-32 ${styles.block}`}>
         {/* Title */}
         <div className={"flex flex-col gap-3"}>
             <h1 className={"text-4xl font-bold text-light-accent-darker dark:text-dark-accent-normal"}>
@@ -214,34 +266,57 @@ const Experiences = () => {
 }
 
 const Skills = () => {
-    const SkillCard = ({icon, title, description, tags}: {
+    const SkillCard = ({index, icon, title, selectedIndex, setSelectedIndex}: {
+        index: number,
         icon: ReactNode,
         title: string,
-        description: string,
-        tags: string,
+        selectedIndex: number,
+        setSelectedIndex: Dispatch<SetStateAction<number>>,
     }) => {
+        const active = index == selectedIndex;
+        let animClassName = "flex overflow-hidden transition-all ease-out group ";
+        if (active)
+            animClassName += "flex-full animate-float-up !h-80";
+        else
+            animClassName += "flex-1 cursor-pointer hover:scale-[102%]";
+
+        let arrowUpClassName = "w-6 h-6 opacity-0 fill-light-accent-darker dark:fill-dark-accent-normal ";
+        if (!active) {
+            arrowUpClassName += "group-hover:opacity-100 ease-out group-hover:animate-bounce-up ";
+        }
+
+        let details;
+        if (active) {
+            details = <>
+                <h3 className={"text-xl text-light-text-lighter dark:text-dark-text-darker"}>
+                    as as dasd qwdsda sdqd as asd
+                </h3>
+            </>;
+        } else {
+            details = <>
+                <p className={"text-base text-light-text-lighter dark:text-dark-text-darker"}>
+                    Python, Java<br/>SQL
+                </p>
+            </>
+        }
+
         return <div
-            className={`rounded-xl
-                        relative flex overflow-hidden
-                        bg-light-background-lighter dark:bg-dark-background-darker`}>
+            className={`h-48 relative ${animClassName} bg-light-background-lighter dark:bg-dark-background-darker rounded-xl`}
+            onClick={() => {
+                if (active) return;
+                setSelectedIndex(index);
+            }}>
             <div className={"w-full m-10 z-10 flex flex-col gap-2"}>
                 <div className={"flex flex-row items-center justify-between gap-2"}>
                     <h3 className={"text-3xl font-bold text-light-text-lighter dark:text-dark-text-lighter"}>
                         {title}
                     </h3>
+                    <MdOutlineKeyboardDoubleArrowUp className={arrowUpClassName}/>
                 </div>
 
                 {/* Content */}
                 <div className={"flex flex-row items-center justify-between gap-2"}>
-                    <p className={"text-lg text-light-text-lighter dark:text-dark-text-normal whitespace-pre-wrap"}>
-                        {description}
-                    </p>
-                </div>
-
-                <div className={"mt-auto pt-6"}>
-                    <p className={"font-monospace text-light-text-code dark:text-dark-text-code whitespace-pre-wrap"}>
-                        {tags}
-                    </p>
+                    {details}
                 </div>
             </div>
             <IconContext.Provider value={{
@@ -253,6 +328,18 @@ const Skills = () => {
         </div>;
     }
 
+    const [selectedIndex, setSelectedIndex] = useState(0);
+    const skills = [
+        <SkillCard index={0} key={"0"} icon={<BsStack/>} title={"Backend"}
+                   selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex}/>,
+        <SkillCard index={1} key={"1"} icon={<FaCubes/>} title={"Cloud"}
+                   selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex}/>,
+        <SkillCard index={2} key={"2"} icon={<BiCodeAlt/>} title={"Frontend"}
+                   selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex}/>,
+        <SkillCard index={3} key={"3"} icon={<BiNetworkChart/>} title={"ML"}
+                   selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex}/>,
+    ];
+
     return <section className={"flex flex-col py-32"}>
         {/* Title */}
         <div className={"flex flex-col gap-3"}>
@@ -263,26 +350,13 @@ const Skills = () => {
         </div>
 
         {/* Content */}
-        <div className={"mt-6 grid grid-cols-3 gap-4"}>
-            <SkillCard key={"backend"} icon={<FaCubes/>} title={"Backend"} tags={"SAAS IaC DevOps\nAWS K8s Docker"}
-                       description={"Experienced across the software development cycle, from designing scalable architectures, to implementing them using various frameworks, and to managing operations through CI/CD."}/>
-            <SkillCard key={"frontend"} icon={<BiCodeAlt/>} title={"Frontend"}
-                       tags={"React NextJS CSS\nAndroid UI/UX"}
-                       description={"Passionate about creating intuitive and engaging user experiences through creative UI design, with skills in Android development and React/NextJS web development."}/>
-            <SkillCard key={"research"} icon={<BiNetworkChart/>} title={"Research"}
-                       tags={"Pytorch Tensorflow\nJupyter CUDA"}
-                       description={"Enthusiastic about contributing to computer vision advancements, I offer software engineering expertise, Python proficiency, and familiarity with ML libraries to support research endeavors."}/>
+        <div className={"flex flex-row"}>
+            {skills[selectedIndex]}
         </div>
-
-        <div className={"mt-16 flex flex-col items-center"}>
-            <a className={`px-12 py-3 rounded-lg border-2 cursor-pointer
-                           border-dark-accent-darker hover:border-dark-text-lighter
-                           group transition-all ease-out duration-300`}
-               href={"/projects"}>
-                <p className={`text-xl font-bold text-dark-accent-normal group-hover:text-dark-text-lighter`}>
-                    View my projects
-                </p>
-            </a>
+        <div className={"mt-6 flex flex-row gap-6"}>
+            {skills[(selectedIndex + 1) % 4]}
+            {skills[(selectedIndex + 2) % 4]}
+            {skills[(selectedIndex + 3) % 4]}
         </div>
 
     </section>;
@@ -306,12 +380,12 @@ const Links = () => {
         {/* Title */}
         <div className={"flex flex-col gap-3"}>
             <h1 className={"text-4xl font-bold text-light-accent-darker dark:text-dark-accent-normal"}>
-                Get in Touch
+                Contact Me
             </h1>
             <ShortDivider/>
         </div>
 
-        <div className={"grid grid-rows-1 grid-cols-2 gap-6"}>
+        <div className={"flex flex-row gap-6 items-stretch justify-between"}>
 
             {/* Link to Blog */}
             <div
@@ -345,9 +419,12 @@ const Links = () => {
                         engaging and interactive experience!
                     </div>
 
-                    <div className={`mt-auto flex flex-row gap-4 pt-4 items-center justify-start cursor-pointer group
-                                     text-dark-accent-normal font-bold text-xl`}>
-                        <AnimatedLink href={"/blogs"} text={"Read my articles"}/>
+                    <div
+                        className={"mt-auto flex flex-row gap-4 py-2 items-center justify-start cursor-pointer group text-dark-accent-normal"}>
+                        <p className={"relative text-lg font-bold after:bg-light-accent-darker dark:after:bg-dark-accent-normal " +
+                            "group-hover:after:scale-100 group-hover:after:origin-bottom-left " + styles.link}>
+                            Read my articles
+                        </p>
                         <BsArrowRight className={"h-8 w-8 transition ease-out duration-100 group-hover:translate-x-2"}/>
                     </div>
 
@@ -362,28 +439,31 @@ const Links = () => {
                         Say Hello!
                     </h3>
 
-                    <p className={"text-xl text-dark-text-normal"}>
-                        Get in touch with me through my personal email or any of the social media platforms I use.
-                        <br/><br/>
-                        Whether you have a question, a project idea, or just want to say hello, I'd love to hear from
-                        you!
-                    </p>
+                    <TextInput
+                        id="email"
+                        type="email"
+                        icon={HiMail}
+                        placeholder="name@example.com"
+                        required={true}
+                    />
 
-                    <div className={"mt-auto flex flex-row gap-3"}>
-                        <IconContext.Provider value={{
-                            className: "w-6 h-6 fill-light-accent-darker hover:fill-light-accent-lighter " +
-                                "dark:fill-dark-accent-darker dark:hover:fill-dark-accent-lighter"
-                        }}>
-                            <a href={"mailto:hi@neoc.me"}>
-                                <MdEmail/>
-                            </a>
-                            <a href={"https://www.linkedin.com/in/neoc/"}>
-                                <BsLinkedin/>
-                            </a>
-                            <a href={"https://github.com/neoxchen/"}>
-                                <BsGithub/>
-                            </a>
-                        </IconContext.Provider>
+                    <div>
+                        <div className="mb-2 block">
+                            <p>Your Message</p>
+                        </div>
+                        <Textarea
+                            id="message"
+                            required={true}
+                        />
+                    </div>
+
+                    <div className={"flex mt-auto flex-col items-center"}>
+                        <div
+                            className={"flex flex-row px-12 py-2 gap-2 items-center justify-center cursor-pointer rounded-3xl border-2 border-dark-text-darker group hover:border-dark-accent-darker transition ease-out duration-300"}>
+                            <p className={"text-xl font-bold text-dark-text-lighter group-hover:text-dark-accent-normal"}>Send</p>
+                            <IoIosSend
+                                className={"h-7 w-7 fill-dark-text-lighter group-hover:fill-dark-accent-normal"}/>
+                        </div>
                     </div>
                 </div>
             </div>

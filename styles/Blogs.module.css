@@ -1,0 +1,19 @@
+.ribbon {
+    @apply font-bold drop-shadow-md;
+    @apply absolute top-0 left-0 m-0 z-50 px-0 py-[1rem];
+    transform: translateX(40%) translateY(-30%) rotate(-45deg);
+    transform-origin: bottom right;
+}
+
+.ribbon:before,
+.ribbon:after {
+    @apply absolute w-full h-full top-0;
+}
+
+.ribbon:before {
+    @apply right-full;
+}
+
+.ribbon:after {
+    @apply left-full;
+}
