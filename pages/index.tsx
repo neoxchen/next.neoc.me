@@ -365,8 +365,8 @@ const Links = () => {
                     <p className={"text-xl text-dark-text-normal"}>
                         Get in touch with me through my personal email or any of the social media platforms I use.
                         <br/><br/>
-                        Whether you have a question, a project idea, or just want to say hello, I'd love to hear from
-                        you!
+                        Whether you have a question, a project idea, or just want to say hello, I&rsquo;d love to hear
+                        from you!
                     </p>
 
                     <div className={"mt-auto flex flex-row gap-3"}>
