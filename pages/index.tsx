@@ -159,18 +159,17 @@ const Experiences = () => {
                 <TimelineDot
                     className={`w-10 h-10 items-center justify-center transition-all ease-out
                                 bg-light-accent-normal dark:bg-dark-accent-darker
-                                group-hover:bg-light-accent-darker dark:group-hover:bg-dark-accent-lighter`}>
+                                group-hover:bg-light-accent-darker group-hover:dark:!bg-dark-accent-normal`}>
                     <IconContext.Provider
-                        value={{className: "w-5 h-5 fill-light-background-lighter dark:fill-dark-background-normal"}}>
+                        value={{className: "w-5 h-5 fill-light-background-lighter dark:fill-dark-background-darker"}}>
                         {icon}
                     </IconContext.Provider>
                 </TimelineDot>
                 <TimelineConnector/>
             </TimelineSeparator>
-            <TimelineContent sx={{py: 3, px: 4, m: 1.5}}
-                             className={`rounded-lg drop-shadow-md
+            <TimelineContent className={`!m-4 !px-8 !py-6 rounded-lg drop-shadow-md
                                          bg-light-background-lighter dark:bg-dark-background-darker
-                                         transition ease-out group-hover:scale-[101%]`}>
+                                         transition ease-out group-hover:scale-[102%]`}>
                 <div
                     className={"flex flex-row gap-1 font-regular font-bold text-xl text-light-text-lighter dark:text-dark-text-lighter"}>
                     <p>{role}</p>
