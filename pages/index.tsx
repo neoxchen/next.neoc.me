@@ -13,6 +13,7 @@ import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import TimelineItem, {timelineItemClasses} from '@mui/lab/TimelineItem';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
+import {createTheme} from "@mui/system";
 import Image, {StaticImageData} from "next/image";
 import * as React from "react";
 import {ReactNode, useEffect, useState} from "react";
@@ -153,6 +154,22 @@ const Experiences = () => {
             i++;
         }
 
+        const theme = createTheme({
+            components: {
+                // Name of the component
+                MuiTim: {
+                    styleOverrides: {
+                        // Name of the slot
+                        root: {
+                            // Some CSS
+                            fontSize: '1rem',
+                        },
+                    },
+                },
+            },
+        });
+
+
         return <TimelineItem className={"group"}>
             <TimelineSeparator>
                 <TimelineConnector/>
@@ -167,9 +184,13 @@ const Experiences = () => {
                 </TimelineDot>
                 <TimelineConnector/>
             </TimelineSeparator>
-            <TimelineContent className={`!m-4 !px-8 !py-6 rounded-lg drop-shadow-md
+            <TimelineContent sx={{
+                m: "0.8rem !important",
+                p: "1.5rem !important",
+            }}
+                             className={`rounded-lg drop-shadow-md
                                          bg-light-background-lighter dark:bg-dark-background-darker
-                                         transition ease-out group-hover:scale-[102%]`}>
+                                         transition ease-out group-hover:scale-[101%]`}>
                 <div
                     className={"flex flex-row gap-1 font-regular font-bold text-xl text-light-text-lighter dark:text-dark-text-lighter"}>
                     <p>{role}</p>
