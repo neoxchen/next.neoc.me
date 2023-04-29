@@ -1,15 +1,19 @@
 import {AnimatedLink} from "@/components/animated-link";
 import {ShortDivider} from "@/components/dividers";
 import PageContainer from "@/components/page-container";
-import hexagons from "@/public/hexagon_cluster.png";
 import photo from "@/public/photo.png";
+import amazon from "@/public/texture_amazon.png";
+import cmu from "@/public/texture_cmu.png";
+import uci from "@/public/texture_uci.png";
+import zoom from "@/public/texture_zoom.png";
+import styles from "@/styles/About.module.css"
 import Timeline from "@mui/lab/Timeline";
 import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import TimelineItem, {timelineItemClasses} from '@mui/lab/TimelineItem';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
-import Image from "next/image";
+import Image, {StaticImageData} from "next/image";
 import * as React from "react";
 import {ReactNode, useEffect, useState} from "react";
 import Confetti from "react-dom-confetti";
@@ -40,24 +44,24 @@ const Landing = () => {
     return <section className={`flex flex-col py-32`}>
         <div className={"flex flex-row items-center justify-between gap-10"}>
             <div className={"flex flex-col gap-2 w-2/3"}>
-                <h5 className={"text-xl text-light-accent-normal dark:text-dark-accent-normal"}>
+                <h5 className={"text-xl text-light-accent-darker dark:text-dark-accent-lighter"}>
                     Hello there! My name is
                 </h5>
                 <h1 className={"-ml-1 text-8xl font-bold text-light-text-darker dark:text-dark-text-lighter"}>
                     Neo Chen
                 </h1>
-                <h2 className={"text-4xl font-bold text-light-accent-darker dark:text-dark-text-normal"}>
+                <h2 className={"text-4xl font-bold text-light-accent-normal dark:text-dark-accent-darker"}>
                     I&rsquo;m a Software Engineer
                 </h2>
-                <h3 className={"text-xl text-light-text-lighter dark:text-dark-text-darker"}>
+                <h3 className={"text-xl text-light-text-lighter dark:text-dark-text-normal"}>
                     who&rsquo;s mainly focused in backend development, but have some experience in designing & building
                     full-stack products
                 </h3>
             </div>
             <div className={"relative w-1/3 rounded-3xl shadow-xl"}>
                 <Image src={photo} alt={"Neo's portrait photo"} className={"rounded-3xl"}/>
-                <div
-                    className={"absolute w-full h-full top-0 z-10 rounded-3xl bg-dark-text-code opacity-0 dark:opacity-10"}/>
+                {/*<div*/}
+                {/*    className={"absolute w-full h-full top-0 z-10 rounded-3xl bg-dark-text-code opacity-0 dark:opacity-10"}/>*/}
             </div>
         </div>
 
@@ -71,10 +75,32 @@ const Landing = () => {
 
 
 const About = () => {
+    const Hexagons = () => {
+        const HexTile = ({image, href}: {
+            image: StaticImageData,
+            href: string
+        }) => {
+            return <div className={"cursor-pointer transition ease-out hover:scale-[105%]"}>
+                <a href={href} target={"_blank"} rel={"noopener noreferrer"}>
+                    <Image src={image} alt={"image"} className={"w-full h-full object-cover"}/>
+                </a>
+            </div>;
+        }
+
+        return <div className={`${styles.main} flex-weight-1 drop-shadow-md`}>
+            <div className={styles.container}>
+                <HexTile image={uci} href={"https://uci.edu/"}/>
+                <HexTile image={cmu} href={"https://www.cmu.edu/"}/>
+                <HexTile image={zoom} href={"https://zoom.us/"}/>
+                <HexTile image={amazon} href={"https://www.amazon.com/"}/>
+            </div>
+        </div>;
+    }
+
     return <section className={`flex flex-col py-32 overflow-hidden snap-start`} id={"about-start"}>
         {/* Title */}
         <div className={"flex flex-col gap-3"}>
-            <h1 className={"text-4xl font-bold text-light-accent-darker dark:text-dark-accent-normal"}>
+            <h1 className={"text-4xl font-bold text-light-accent-normal dark:text-dark-accent-normal"}>
                 About Me
             </h1>
             <ShortDivider/>
@@ -96,9 +122,10 @@ const About = () => {
                 computer vision, focusing on AR/VR technologies. My aim is to be at the forefront of advancements that
                 shape our world for the better.
             </p>
-            <div className={"flex-weight-1 px-4"}>
-                <Image src={hexagons} alt={"image"} height={128 * 2.5}/>
-            </div>
+            <Hexagons/>
+            {/*<div className={"flex-weight-1 px-4"}>*/}
+            {/*    <Image src={hexagons} alt={"image"} height={128 * 2.5}/>*/}
+            {/*</div>*/}
         </div>
     </section>;
 }
@@ -126,24 +153,30 @@ const Experiences = () => {
             i++;
         }
 
-        return <TimelineItem>
+        return <TimelineItem className={"group"}>
             <TimelineSeparator>
                 <TimelineConnector/>
-                <TimelineDot className={"fill-light-accent-darker dark:bg-dark-accent-darker"}>
-                    <IconContext.Provider value={{className: "fill-dark-background-darker"}}>
+                <TimelineDot
+                    className={`w-10 h-10 items-center justify-center transition-all ease-out
+                                bg-light-accent-normal dark:bg-dark-accent-darker
+                                group-hover:bg-light-accent-darker group-hover:dark:!bg-dark-accent-normal`}>
+                    <IconContext.Provider
+                        value={{className: "w-5 h-5 fill-light-background-lighter dark:fill-dark-background-darker"}}>
                         {icon}
                     </IconContext.Provider>
                 </TimelineDot>
                 <TimelineConnector/>
             </TimelineSeparator>
-            <TimelineContent sx={{py: 0, px: 4, pb: 4}}>
+            <TimelineContent className={`m-4 px-8 py-6 rounded-lg drop-shadow-md
+                                         bg-light-background-lighter dark:bg-dark-background-darker
+                                         transition ease-out group-hover:scale-[102%]`}>
                 <div
                     className={"flex flex-row gap-1 font-regular font-bold text-xl text-light-text-lighter dark:text-dark-text-lighter"}>
                     <p>{role}</p>
                     <p>@</p>
                     <AnimatedLink href={company_url} text={company}/>
                 </div>
-                <p className={"font-regular font-semibold text-md text-light-text-lighter dark:text-dark-text-darker"}>
+                <p className={"font-regular font-semibold text-md text-light-accent-darkest dark:text-dark-text-darker"}>
                     {date}
                 </p>
                 <ul className={`mt-2 font-regular text-md text-light-text-lighter dark:text-dark-text-normal`}>
@@ -156,7 +189,7 @@ const Experiences = () => {
     return <section className={`flex flex-col py-32`}>
         {/* Title */}
         <div className={"flex flex-col gap-3"}>
-            <h1 className={"text-4xl font-bold text-light-accent-darker dark:text-dark-accent-normal"}>
+            <h1 className={"text-4xl font-bold text-light-accent-normal dark:text-dark-accent-normal"}>
                 Experiences
             </h1>
             <ShortDivider/>
@@ -221,8 +254,7 @@ const Skills = () => {
         tags: string,
     }) => {
         return <div
-            className={`rounded-xl
-                        relative flex overflow-hidden
+            className={`relative flex overflow-hidden rounded-xl drop-shadow-md
                         bg-light-background-lighter dark:bg-dark-background-darker`}>
             <div className={"w-full m-10 z-10 flex flex-col gap-2"}>
                 <div className={"flex flex-row items-center justify-between gap-2"}>
@@ -256,7 +288,7 @@ const Skills = () => {
     return <section className={"flex flex-col py-32"}>
         {/* Title */}
         <div className={"flex flex-col gap-3"}>
-            <h1 className={"text-4xl font-bold text-light-accent-darker dark:text-dark-accent-normal"}>
+            <h1 className={"text-4xl font-bold text-light-accent-normal dark:text-dark-accent-normal"}>
                 My Skills
             </h1>
             <ShortDivider/>
@@ -275,11 +307,14 @@ const Skills = () => {
         </div>
 
         <div className={"mt-16 flex flex-col items-center"}>
-            <a className={`px-12 py-3 rounded-lg border-2 cursor-pointer
-                           border-dark-accent-darker hover:border-dark-text-lighter
-                           group transition-all ease-out duration-300`}
+            <a className={`px-12 py-3 rounded-lg border-2 cursor-pointer drop-shadow-md
+                           bg-light-background-lighter dark:bg-dark-background-darker
+                           border-light-accent-darker dark:border-dark-accent-normal
+                           group transition ease-out duration-300
+                           hover:border-dark-accent-darker hover:!bg-dark-accent-darker`}
                href={"/projects"}>
-                <p className={`text-xl font-bold text-dark-accent-normal group-hover:text-dark-text-lighter`}>
+                <p className={`text-xl font-bold group-hover:text-dark-text-lighter
+                               text-light-accent-darker dark:text-dark-accent-normal`}>
                     View my projects
                 </p>
             </a>
@@ -305,17 +340,17 @@ const Links = () => {
     return <section className={"flex flex-col py-32"}>
         {/* Title */}
         <div className={"flex flex-col gap-3"}>
-            <h1 className={"text-4xl font-bold text-light-accent-darker dark:text-dark-accent-normal"}>
+            <h1 className={"text-4xl font-bold text-light-accent-normal dark:text-dark-accent-normal"}>
                 Get in Touch
             </h1>
             <ShortDivider/>
         </div>
 
         <div className={"grid grid-rows-1 grid-cols-2 gap-6"}>
-
             {/* Link to Blog */}
             <div
-                className={`flex flex-1 overflow-hidden relative bg-light-background-lighter dark:bg-dark-background-darker rounded-xl`}>
+                className={`flex flex-1 overflow-hidden relative rounded-xl drop-shadow-md group
+                            bg-light-background-lighter dark:bg-dark-background-darker`}>
                 <div className={"w-full m-10 z-10 flex flex-col gap-2"}>
                     <div className={"flex flex-row items-center justify-between gap-2"}>
                         <h3 className={"text-3xl font-bold text-light-text-lighter dark:text-dark-text-lighter"}>
@@ -323,7 +358,7 @@ const Links = () => {
                         </h3>
                     </div>
 
-                    <div className={"text-xl text-dark-text-normal"}>
+                    <div className={"text-xl text-light-text-lighter dark:text-dark-text-normal"}>
                         On my blog, you&rsquo;ll find posts about the various technologies I&rsquo;ve learned and the
                         interesting projects I&rsquo;ve worked on.
                         <br/><br/>
@@ -331,8 +366,8 @@ const Links = () => {
                         <div
                             className={"inline-block relative cursor-pointer hover:animate-wiggle-once"}>
                             <p
-                                className={"font-bold text-dark-text-lighter"}
-                                onClick={() => setHovering(true)}>
+                                className={"font-bold text-light-accent-darker dark:text-dark-accent-normal"}
+                                onMouseEnter={() => setHovering(true)}>
                                 interactive
                             </p>
                             <div className={"absolute -top-2 w-full"}>
@@ -345,8 +380,8 @@ const Links = () => {
                         engaging and interactive experience!
                     </div>
 
-                    <div className={`mt-auto flex flex-row gap-4 pt-4 items-center justify-start cursor-pointer group
-                                     text-dark-accent-normal font-bold text-xl`}>
+                    <div className={`mt-auto flex flex-row gap-4 pt-4 items-center justify-start group
+                                     font-bold text-xl text-dark-accent-normal dark:text-dark-accent-normal`}>
                         <AnimatedLink href={"/blogs"} text={"Read my articles"}/>
                         <BsArrowRight className={"h-8 w-8 transition ease-out duration-100 group-hover:translate-x-2"}/>
                     </div>
@@ -356,13 +391,14 @@ const Links = () => {
 
             {/* Contact form */}
             <div
-                className={`flex flex-1 bg-light-background-lighter dark:bg-dark-background-darker rounded-xl`}>
+                className={`flex flex-1 rounded-xl drop-shadow-md group
+                            bg-light-background-lighter dark:bg-dark-background-darker`}>
                 <div className={"flex flex-col items-stretch w-full m-10 z-10 gap-4"}>
                     <h3 className={"text-3xl font-bold text-light-text-lighter dark:text-dark-text-lighter"}>
                         Say Hello!
                     </h3>
 
-                    <p className={"text-xl text-dark-text-normal"}>
+                    <p className={"text-xl text-light-text-lighter dark:text-dark-text-normal"}>
                         Get in touch with me through my personal email or any of the social media platforms I use.
                         <br/><br/>
                         Whether you have a question, a project idea, or just want to say hello, I&rsquo;d love to hear
@@ -371,8 +407,9 @@ const Links = () => {
 
                     <div className={"mt-auto flex flex-row gap-3"}>
                         <IconContext.Provider value={{
-                            className: "w-6 h-6 fill-light-accent-darker hover:fill-light-accent-lighter " +
-                                "dark:fill-dark-accent-darker dark:hover:fill-dark-accent-lighter"
+                            className: `w-6 h-6 fill-light-accent-normal hover:fill-light-accent-lighter
+                                        dark:fill-dark-accent-darker dark:hover:fill-dark-accent-lighter
+                                        group-hover:animate-wiggle-once`
                         }}>
                             <a href={"mailto:hi@neoc.me"}>
                                 <MdEmail/>

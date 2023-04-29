@@ -4,7 +4,7 @@ import {BsGithub, BsLinkedin} from "react-icons/bs";
 
 const MyFooter = () => {
     return <section>
-        <Footer container={true} className={"mt-16 !bg-light-background-lighter dark:!bg-dark-background-lighter"}>
+        <Footer container={true} className={"mt-16 !bg-light-background-lighter dark:!bg-dark-background-darker"}>
             <div className="w-full sm:flex sm:items-center sm:justify-between">
                 <Footer.Copyright
                     className={"ml-4"}

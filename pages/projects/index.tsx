@@ -163,7 +163,7 @@ export default function Projects() {
             <div className={"w-[60%] min-w-[50rem] max-w-[70rem] flex flex-col"}>
                 <section>
                     <h1 className={"text-4xl font-bold mb-2 " +
-                        "text-light-accent-darker dark:text-dark-accent-darker"}>
+                        "text-light-accent-normal dark:text-dark-accent-darker"}>
                         Featured Projects
                     </h1>
                     <h2 className={"mb-3 text-xl " +
@@ -176,7 +176,7 @@ export default function Projects() {
 
                 <section>
                     <h1 className={"text-4xl font-bold mt-[5rem] mb-2 " +
-                        "text-light-accent-darker dark:text-dark-accent-darker"}>
+                        "text-light-accent-normal dark:text-dark-accent-darker"}>
                         Project Archive
                     </h1>
                     <h2 className={"mb-3 text-xl " +
@@ -193,7 +193,7 @@ export default function Projects() {
 }
 
 const ProjectCards = () => {
-    return <div className={"flex flex-col items-center"}>
+    return <div className={"flex flex-col items-center drop-shadow-md"}>
         <ul className={"w-full grid gap-4 grid-cols-2"}>
             <li className={"h-full col-span-2 flex flex-col items-center"}>
                 <ProjectCard projects={featuredProjects[0]}/>
@@ -280,27 +280,27 @@ const ProjectTable = () => {
             proprietary?: boolean
         }
     }) => {
-        return <Table.Row className="border-none !bg-light-background-lighter hover:!bg-white
-        dark:!bg-dark-background-darker dark:hover:!bg-dark-background-lighter
-        font-medium">
-            <Table.Cell>
+        return <Table.Row className={`border-none font-medium
+                                      !bg-light-background-lighter hover:!bg-light-background-normal
+                                      dark:!bg-dark-background-darker dark:hover:!bg-dark-background-lighter`}>
+            <Table.Cell className={"text-light-accent-darkest dark:text-dark-text-darker"}>
                 {project.year}
             </Table.Cell>
-            <Table.Cell className={"font-semibold"}>
+            <Table.Cell className={"font-bold"}>
                 {project.name}
             </Table.Cell>
-            <Table.Cell className={"font-monospace font-medium text-xs"}>
+            <Table.Cell className={"font-monospace font-medium text-xs text-light-text-code dark:text-dark-text-code"}>
                 {project.technologies.join(", ")}
             </Table.Cell>
-            <Table.Cell>
+            <Table.Cell className={"font-semibold"}>
                 {project.association}
             </Table.Cell>
             <Table.Cell>
-                <div className={"flex flex-row gap-2 items-center content-center"}>
+                <div className={"flex flex-row gap-2 items-center content-center font-semibold"}>
                     <IconContext.Provider value={{
-                        className: `w-5 h-full cursor-pointer transition duration-200 ease-out 
-                    stroke-light-accent-darker hover:stroke-light-accent-lighter
-                    dark:stroke-dark-text-normal dark:hover:stroke-dark-accent-normal`
+                        className: `w-5 h-full cursor-pointer transition duration-200 ease-out
+                                    stroke-light-accent-darker hover:stroke-light-accent-lighter
+                                    dark:stroke-dark-accent-normal dark:hover:stroke-dark-text-normal`
                     }}>
                         {project.blog &&
                             <a href={project.blog} target="_blank" rel="noreferrer"><FiFileText/></a>}
@@ -326,7 +326,7 @@ const ProjectTable = () => {
     }
 
     return <Table hoverable={true}>
-        <Table.Head className={"font-bold !bg-light-background-darker dark:!bg-dark-background-lightest"}>
+        <Table.Head className={"font-bold !bg-light-background-darker dark:!bg-dark-background-lighter"}>
             <Table.HeadCell>
                 Year
             </Table.HeadCell>

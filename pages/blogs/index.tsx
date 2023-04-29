@@ -18,7 +18,7 @@ export default function Blogs() {
             <div className={"w-[60%] min-w-[50rem] max-w-[70rem] flex flex-col"}>
                 <section>
                     <h1 className={`text-4xl font-bold mb-2
-                                    text-light-accent-darker dark:text-dark-accent-darker`}>
+                                    text-light-accent-normal dark:text-dark-accent-darker`}>
                         Blogs
                     </h1>
                     <h2 className={"mb-3 text-xl " +
@@ -50,7 +50,7 @@ export default function Blogs() {
                 {/* All posts */}
                 {/*<section>*/}
                 {/*    <h1 className={"text-4xl font-bold mt-[5rem] mb-2 " +*/}
-                {/*        "text-light-accent-darker dark:text-dark-accent-darker"}>*/}
+                {/*        "text-light-accent-normal dark:text-dark-accent-darker"}>*/}
                 {/*        All Posts*/}
                 {/*    </h1>*/}
                 {/*    <ShortDivider/>*/}
@@ -143,20 +143,20 @@ const TagContainer = () => {
         const isActive = index == activeIndex;
         let pillClasses = `min-w-[3rem] flex flex-row rounded-lg items-center justify-center cursor-pointer text-sm font-bold `;
         if (isActive) {
-            pillClasses += "text-black dark:text-dark-background-darker ";
-            pillClasses += "bg-light-accent-lighter dark:bg-dark-text-darker ";
+            pillClasses += `text-black dark:text-dark-background-darker
+                            bg-light-accent-lighter dark:bg-dark-accent-normal `;
         } else {
-            pillClasses += "text-light-text-lighter dark:text-dark-text-lighter ";
-            pillClasses += "bg-light-background-normal dark:bg-dark-background-lighter";
+            pillClasses += `text-light-text-lighter dark:text-dark-text-lighter
+                            bg-light-background-normal dark:bg-dark-background-lighter`;
         }
 
         let numberClasses = "px-3 py-2 rounded-md ";
         if (isActive) {
-            numberClasses += "bg-light-accent-normal dark:bg-dark-text-darkest ";
-            numberClasses += "text-white dark:text-dark-accent-darker";
+            numberClasses += `text-light-text-darker dark:text-dark-text-lighter
+                              bg-light-accent-semi-light dark:bg-dark-accent-darker`;
         } else {
-            numberClasses += "bg-light-background-semi-dark dark:bg-dark-background-lighter ";
-            numberClasses += "text-light-text-code dark:text-dark-accent-darker";
+            numberClasses += `text-light-text-code dark:text-dark-accent-darker
+                              bg-light-background-semi-dark dark:bg-dark-background-normal`;
         }
 
         return <div className={pillClasses} onClick={() => setActiveIndex(index)}>
@@ -170,8 +170,8 @@ const TagContainer = () => {
         </div>;
     }
 
-    return <div className={"flex flex-wrap gap-4 mb-8 p-4 rounded-xl " +
-        "bg-light-background-lighter dark:bg-dark-background-darker"}>
+    return <div className={`flex flex-wrap gap-4 mb-8 p-4 rounded-xl drop-shadow-sm
+                            bg-light-background-lighter dark:bg-dark-background-darker`}>
         <TagPill name={"All"} index={0}/>
         <TagPill name={"Waku Waku"} count={1} index={1}/>
         <TagPill name={"Yasar"} count={14} index={2}/>
@@ -196,22 +196,23 @@ const BigBlogCard = ({metadata}: {
 }) => {
     return <Link href={metadata.href}>
         <div
-            className={"relative w-full min-h-[20rem] flex overflow-hidden box-border border-0 rounded-xl justify-items-stretch " +
-                "!bg-light-background-lighter dark:!bg-dark-background-darker " +
-                "transition ease-out hover:scale-[102%]"}
+            className={`relative w-full min-h-[20rem] drop-shadow-md
+                        flex overflow-hidden box-border border-0 rounded-xl justify-items-stretch
+                        !bg-light-background-lighter dark:!bg-dark-background-darker
+                        transition ease-out hover:scale-[102%]`}
         >
             {/* Ribbon */}
             <div
-                className={styles.ribbon + " text-white dark:text-dark-background-lighter " +
-                    "bg-light-error dark:bg-dark-accent-darker " +
-                    "before:bg-light-error before:dark:bg-dark-accent-darker " +
-                    "after:bg-light-error after:dark:bg-dark-accent-darker "}>
+                className={`${styles.ribbon} text-white dark:text-dark-background-darker
+                            bg-light-accent-normal dark:bg-dark-accent-darker
+                            before:bg-light-accent-normal before:dark:bg-dark-accent-darker
+                            after:bg-light-accent-normal after:dark:bg-dark-accent-darker`}>
                 Featured
             </div>
 
             {/* Image */}
             <div className={"relative w-[50%]"}>
-                <div className={"absolute h-[99%] w-[120%] h-full"}>
+                <div className={"absolute w-[120%] h-full"}>
                     <Image src={metadata.imageSrc} alt={"Blog Image"} fill={true} className={"object-cover"}/>
                     <span className={"absolute w-full h-full bg-blog-featured-image opacity-20"}/>
                 </div>
@@ -219,7 +220,9 @@ const BigBlogCard = ({metadata}: {
 
             {/* Gradient overlay */}
             <div
-                className={"absolute w-full h-full z-10 bg-blog-overlay-gradient-light dark:bg-blog-overlay-gradient-dark"}>
+                className={`absolute w-full h-full z-10
+                            bg-blog-overlay-gradient-light
+                            dark:bg-blog-overlay-gradient-dark`}>
             </div>
 
             {/* Text */}
@@ -272,9 +275,10 @@ const SmallBlogCard = ({metadata}: {
 }) => {
     return <Link href={metadata.href}>
         <div
-            className={"relative w-full h-[25rem] flex flex-col overflow-hidden box-border rounded-xl justify-items-stretch " +
-                "!bg-light-background-lighter dark:!bg-dark-background-lighter " +
-                "transition ease-out hover:scale-[102%]"}
+            className={`relative w-full h-[25rem] drop-shadow-md
+                        flex flex-col overflow-hidden box-border rounded-xl justify-items-stretch
+                        !bg-light-background-lighter dark:!bg-dark-background-lighter
+                        transition ease-out hover:scale-[102%]`}
         >
             <div className={"relative w-full h-[25%]"}>
                 <div className={"absolute w-full h-[120%]"}>
